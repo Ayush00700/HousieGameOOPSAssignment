@@ -20,7 +20,6 @@ public class Player {
                     if(!hasAlreadyWon && checkIfWon()){
                         hasAlreadyWon = true;
                         System.out.printf("Player %s has completed %s \n",this.playerName,this.prizeWon.getClass().getName());
-                        //TODO Notify Admin and Print
                     }
                     return true; 
                 }

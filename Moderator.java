@@ -73,7 +73,7 @@ public class Moderator extends Board{
         admin.generateAllTicketsAndPlayers(noOfPlayers,sc);
         System.out.println("Game Starting ");
         System.out.println("Press 0 to Start ");
-        String s =sc.next();
+        sc.next();
         Board housieBoard = new Board();
         while(!housieBoard.isBoardFull()&&admin.anyPrizesLeft()){
             int x = housieBoard.generateRandomNumber();
