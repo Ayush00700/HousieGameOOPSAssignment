@@ -15,7 +15,7 @@ public class BottomRow implements WinningConditions {
     public List<Player> getWonByPlayer(){
         return wonByPlayers;
     }
-    public void winCondition(int[][] card,Player p){
+    public boolean winCondition(int[][] card,Player p){
         boolean flag=true;
         if(isAvailable){
                 for(int col=0;col<9;col++){
@@ -27,8 +27,10 @@ public class BottomRow implements WinningConditions {
             if(flag){
                 setWonByPlayer(p);
                 this.isAvailable =false;
+                return true;
             }
         }
+        return false;
     }
     public boolean getIsAvailable(){
         return isAvailable;

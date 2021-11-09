@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Ticket {
     private int card[][];
@@ -16,7 +18,7 @@ public class Ticket {
     public String getPlayerName(){
         return playerName;
     }
-    public int[][] generateTicket(){
+    public int[][] generateTicket2(){
         int arr[] = new int[9];
         int sum = 0;
         while(sum!=6){
@@ -52,6 +54,58 @@ public class Ticket {
         // for(int i:arr){
         //     System.out.print(i);
         // }
+        // System.out.println();
+        return card;
+    }
+    public int[][] generateTicket(){
+        List<Integer> arr = new ArrayList<>();
+        int[][] cardPositions = new int[3][9];
+        for(int row=0;row<3;row++){
+            for(int i=0;i<9;i++){
+                arr.add(i);
+            }
+            for(int j=0;j<5;j++){
+                int colPosition=arr.remove((int)((9-j)*Math.random()));
+                int randomNumber;
+                do{
+                    randomNumber = (int)(10*Math.random())+1;
+                }while(cardPositions[0][colPosition]==colPosition*10+randomNumber||cardPositions[1][colPosition]==colPosition*10+randomNumber||cardPositions[2][colPosition]==colPosition*10+randomNumber);
+
+                cardPositions[row][colPosition] = colPosition*10+randomNumber;
+            }
+            arr.clear();
+        }
+        for(int col=0;col<9;col++){
+            if(cardPositions[0][col]!=0&&cardPositions[1][col]!=0&&cardPositions[2][col]!=0){
+                int n1=cardPositions[0][col];
+                int n2=cardPositions[1][col];
+                int n3=cardPositions[2][col];
+                int[] t = {n1,n2,n3};
+                Arrays.sort(t);
+                for(int q=0;q<3;q++)
+                cardPositions[q][col] = t[q];
+            }
+            else if(cardPositions[0][col]!=0&&cardPositions[1][col]!=0){
+                int temp =cardPositions[0][col];
+                cardPositions[0][col] = Math.min(cardPositions[0][col],cardPositions[1][col]);
+                cardPositions[1][col] = Math.max(temp,cardPositions[1][col]);
+            }
+            else if(cardPositions[0][col]!=0&&cardPositions[2][col]!=0){
+                int temp =cardPositions[0][col];
+                cardPositions[0][col] = Math.min(cardPositions[0][col],cardPositions[2][col]);
+                cardPositions[2][col] = Math.max(temp,cardPositions[2][col]);
+            }
+            else if(cardPositions[1][col]!=0&&cardPositions[2][col]!=0){
+                int temp =cardPositions[1][col];
+                cardPositions[1][col] = Math.min(cardPositions[1][col],cardPositions[2][col]);
+                cardPositions[2][col] = Math.max(temp,cardPositions[2][col]);
+            }
+        }
+
+        // for(int[] i:cardPositions){
+        //     System.out.println(Arrays.toString(i));
+        // }
+        card = cardPositions;
         // System.out.println();
         return card;
     }

@@ -4,6 +4,7 @@ public class Player {
     private Ticket card;
     private boolean hasAlreadyWon;
     private final List<WinningConditions> rules;
+    private WinningConditions prizeWon;
 
     Player(List<WinningConditions> rules,String playerName){
         this.playerName=playerName;
@@ -18,6 +19,7 @@ public class Player {
                     card.crossOut(calledNumber);
                     if(!hasAlreadyWon && checkIfWon()){
                         hasAlreadyWon = true;
+                        System.out.printf("Player %s has completed %s \n",this.playerName,this.prizeWon.getClass().getName());
                         //TODO Notify Admin and Print
                     }
                     return true; 
@@ -33,7 +35,12 @@ public class Player {
         this.playerName = name; 
     }
     private boolean checkIfWon(){
-         //TODO Call Win Classes to Check
+        for(int i=0;i<rules.size();i++){
+            if(rules.get(i).winCondition(card.getCard(), this)){
+                this.prizeWon = rules.get(i); 
+                return true;
+            }
+        }
          return false;
     }
 }

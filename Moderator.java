@@ -40,18 +40,14 @@ public class Moderator extends Board{
         }
         System.out.println();
     }
-        
-    public void checkIfSomeoneWon(){
-        
-    }
 
     public boolean anyPrizesLeft(){
         for(int i=0;i<rules.size();i++){
             if(rules.get(i).getIsAvailable()){
-                System.out.println("All prizes are now finished");
                 return true;       
             }
         }
+        System.out.println("All prizes are now finished");
         return false;
     }
 
@@ -62,7 +58,7 @@ public class Moderator extends Board{
             for(int j=0;j<rules.get(i).getWonByPlayer().size();j++){
                 if(j>0)
                     System.out.print(",");
-                System.out.print(rules.get(i).getWonByPlayer().get(j));
+                System.out.print(rules.get(i).getWonByPlayer().get(j).getName());
             }
             System.out.println();
         }
@@ -76,8 +72,10 @@ public class Moderator extends Board{
         admin.setRules(sc);
         admin.generateAllTicketsAndPlayers(noOfPlayers,sc);
         System.out.println("Game Starting ");
+        System.out.println("Press 0 to Start ");
+        String s =sc.next();
         Board housieBoard = new Board();
-        while(!housieBoard.isBoardFull()){
+        while(!housieBoard.isBoardFull()&&admin.anyPrizesLeft()){
             int x = housieBoard.generateRandomNumber();
             System.out.println("Moderator called "+x);
             for(int j=0;j<noOfPlayers;j++){

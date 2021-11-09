@@ -14,7 +14,7 @@ public class Early5 implements WinningConditions {
     public List<Player> getWonByPlayer(){
         return wonByPlayers;
     }
-    public void winCondition(int[][] card,Player p){
+    public boolean winCondition(int[][] card,Player p){
         if(isAvailable){
             int count=0;
             for(int row=0;row<3;row++){
@@ -26,8 +26,10 @@ public class Early5 implements WinningConditions {
             if(count==5){
                 setWonByPlayer(p);
                 this.isAvailable =false;
+                return true;
             }
-        }   
+        }
+        return false;   
     }
     public boolean getIsAvailable(){
         return isAvailable;

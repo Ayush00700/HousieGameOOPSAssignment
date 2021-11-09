@@ -16,7 +16,7 @@ public class FullHouse implements WinningConditions {
     public List<Player> getWonByPlayer(){
         return wonByPlayers;
     }
-    public void winCondition(int[][] card,Player p){
+    public boolean winCondition(int[][] card,Player p){
         boolean flag=true;
         if(isAvailable){
             for(int row=0;row<2;row++){
@@ -30,8 +30,10 @@ public class FullHouse implements WinningConditions {
             if(flag){
                 setWonByPlayer(p);
                 this.isAvailable =false;
+                return true;
             }
         }
+        return false;
     }
     public boolean getIsAvailable(){
         return isAvailable;
