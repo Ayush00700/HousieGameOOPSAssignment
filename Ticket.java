@@ -106,7 +106,6 @@ public class Ticket {
         //     System.out.println(Arrays.toString(i));
         // }
         card = cardPositions;
-        // System.out.println();
         return card;
     }
     private void printCard(){
