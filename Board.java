@@ -4,7 +4,17 @@ import java.util.List;
 public class Board {
     private boolean[] board;
     private List<Integer> availableNumbers;
-    Board(){
+    public int announcedNumber = 0;	 
+	public boolean gameCompleteFlag = false;	
+	public boolean noAnnouncedFlag = false;
+	public boolean[] playerSuccessFlag;
+	public boolean[] playerChanceFlag;
+	
+	public Object lock1 = new Object();
+	// public Object lock2 = new Object();
+    Board(int noOfPlayers){
+        playerSuccessFlag = new boolean[noOfPlayers];
+        playerChanceFlag = new boolean[noOfPlayers];
         board = new boolean[91];
         availableNumbers = new ArrayList<>();
         board[0] = true;
@@ -37,3 +47,4 @@ public class Board {
     //     }
     // }
 }
+

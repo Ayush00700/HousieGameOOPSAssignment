@@ -1,16 +1,18 @@
 import java.util.*;
-public class Player {
+public class Player implements Runnable{
     private String playerName;
     private Ticket card;
     private boolean hasAlreadyWon;
     private final List<WinningConditions> rules;
     private WinningConditions prizeWon;
+    private Board board;
 
-    Player(List<WinningConditions> rules,String playerName){
+    Player(List<WinningConditions> rules,String playerName, Board b){
         this.playerName=playerName;
         card = new Ticket(playerName);
         hasAlreadyWon =false;
         this.rules = rules; 
+        this.board = b;
     }
     public boolean containsNumber(int calledNumber){
         for(int row=0;row<3;row++){
@@ -27,6 +29,11 @@ public class Player {
         }
         return false;
     } 
+    
+    public void run(){
+
+    }
+
     public String getName(){
         return playerName;
     }
