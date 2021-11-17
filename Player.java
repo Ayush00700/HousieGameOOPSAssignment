@@ -1,5 +1,6 @@
 import java.util.*;
 public class Player implements Runnable{
+    private int id;
     private String playerName;
     private Ticket card;
     private boolean hasAlreadyWon;
@@ -7,12 +8,13 @@ public class Player implements Runnable{
     private WinningConditions prizeWon;
     private Board board;
 
-    Player(List<WinningConditions> rules,String playerName, Board b){
+    Player(List<WinningConditions> rules,int id, String playerName, Board b){
         this.playerName=playerName;
         card = new Ticket(playerName);
         hasAlreadyWon =false;
         this.rules = rules; 
         this.board = b;
+        this.id =id;
     }
     public boolean containsNumber(int calledNumber){
         for(int row=0;row<3;row++){
@@ -21,8 +23,13 @@ public class Player implements Runnable{
                     card.crossOut(calledNumber);
                     if(!hasAlreadyWon && checkIfWon()){
                         hasAlreadyWon = true;
+                        board.playerSuccessFlag[id] = true;
                         System.out.printf("Player %s has completed %s \n",this.playerName,this.prizeWon.getClass().getName());
-                    }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }                    }
                     return true; 
                 }
             }
@@ -31,6 +38,25 @@ public class Player implements Runnable{
     } 
     
     public void run(){
+        synchronized(board.lock1) {
+            while(!board.gameCompleteFlag) {
+                while(!board.noAnnouncedFlag || board.playerChanceFlag[id]) {
+					try {
+						board.lock1.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+                if(!board.gameCompleteFlag) {
+                    this.containsNumber(board.announcedNumber);
+                    
+                    board.playerChanceFlag[id] = true;
+
+                    board.lock1.notifyAll();
+   
+                }
+            }
+        }	
 
     }
 

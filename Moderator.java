@@ -4,7 +4,7 @@ public class Moderator extends Board implements Runnable{
     private List<WinningConditions> rules;
     private List<Player> allPlayers; 
     private Board board;
-    private int numberAnnounced = 0;
+    private int numberAnnounced = 91;
     private Thread[] playerThreads;
     
     Moderator(int noOfPlayers, Board board){
@@ -29,7 +29,7 @@ public class Moderator extends Board implements Runnable{
             noOfPlayers--;
         }
         for(int i=0;i<names.length;i++){
-            Player pi = new Player(rules,names[i],board);
+            Player pi = new Player(rules,i,names[i],board);
 
             playerThreads[i] = new Thread(pi);
             playerThreads[i].start();
@@ -52,10 +52,16 @@ public class Moderator extends Board implements Runnable{
     }
 
     public boolean anyPrizesLeft(){
+        if(noOfPlayers>=rules.size())
         for(int i=0;i<rules.size();i++){
             if(rules.get(i).getIsAvailable()){
                 return true;       
             }
+        }
+        else
+        for(int i=0;i<board.playerSuccessFlag.length;i++){
+            if(!board.playerSuccessFlag[i])
+                return true;
         }
         return false;
     }
@@ -80,19 +86,53 @@ public class Moderator extends Board implements Runnable{
         synchronized(board.lock1){    
             while(!board.isBoardFull()&&this.anyPrizesLeft()){
                 
+                board.noAnnouncedFlag = false;
+
+                for(int j=0;j<noOfPlayers;j++){
+                    board.playerChanceFlag[j] =false;
+                }
+                if(board.isBoardFull()||!this.anyPrizesLeft())
+                    board.gameCompleteFlag = true;
                 int x = board.generateRandomNumber();
                 System.out.println("Moderator called "+x);
-                for(int j=0;j<noOfPlayers;j++){
-                    this.allPlayers.get(j).containsNumber(x);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                board.announcedNumber = x;
+                
+                board.noAnnouncedFlag = true;
+
+                board.lock1.notifyAll();
+
+                while(!allPlayersChanceFinished()){
+                    try {
+						board.lock1.wait(); 
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+                }
+                // for(int j=0;j<noOfPlayers;j++){
+                //     this.allPlayers.get(j).containsNumber(x);
+                // }
             }
             System.out.println("All prizes are now finished");
             this.declareWinners();
             System.out.println("Game Over");
+            System.exit(1);
         }
     }
 
     
+    private boolean allPlayersChanceFinished() {
+        for(int j=0;j<noOfPlayers;j++){
+            if(!board.playerChanceFlag[j])
+                return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Number of Players:");
@@ -105,9 +145,10 @@ public class Moderator extends Board implements Runnable{
         System.out.println("Press 0 to Start ");
         sc.next();
         
-		Thread moderatorThread  = Thread.currentThread();  
-
+		Thread moderatorThread  = new Thread(admin,"Main Thread");
+        moderatorThread.start();
         sc.close();
+        
     }
     
 }
