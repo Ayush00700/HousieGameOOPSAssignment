@@ -1,4 +1,3 @@
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
@@ -11,12 +10,9 @@ public class Moderator extends Board implements Runnable{
     private static List<Player> allPlayers; 
     private Board board;
     private int numberAnnounced = 91;
-    private Thread[] playerThreads;
     public final JLabel lblGameStatus = new JLabel();   
-    private JButton[] btnDealerBoardNumbers;	
     private static GameGUI gui;
     private boolean userSelectedNumber;
-
 
     Moderator(int noOfPlayers, Board board){
         super(noOfPlayers);
@@ -48,7 +44,7 @@ public class Moderator extends Board implements Runnable{
             playerThreads[i].start();
 
             System.out.println();
-            this.allPlayers.add(pi);
+            allPlayers.add(pi);
         }
     }
     public void setRules(Scanner sc){
@@ -62,6 +58,9 @@ public class Moderator extends Board implements Runnable{
             System.out.println(rules.get(i));
         }
         System.out.println();
+    }
+    public List<WinningConditions> getRules(){
+        return rules;
     }
 
     public boolean anyPrizesLeft(){
@@ -80,18 +79,24 @@ public class Moderator extends Board implements Runnable{
     }
 
     public void declareWinners(){
+        String[] winners = new String[rules.size()];
+        int k=0;
         System.out.println("\n\nWinners of this Game");
         for(int i=0;i<rules.size();i++){
-            System.out.print(rules.get(i).toString()+" : " );
+            System.out.print(rules.get(i).getClass().getName()+" : " );
             for(int j=0;j<rules.get(i).getWonByPlayer().size();j++){
                 if(j>0)
                     System.out.print(",");
                 System.out.print(rules.get(i).getWonByPlayer().get(j).getName());
+                winners[k++] =rules.get(i).getClass().getName()+" : " + rules.get(i).getWonByPlayer().get(j).getName() ;
             }
             System.out.println();
         }
+        this.getGUI().winners(winners);
+
     }
 	public void setAnnouncedNumber(int i) {
+
 		this.numberAnnounced = i;
         this.userSelectedNumber = true;
 	}
@@ -157,22 +162,6 @@ public class Moderator extends Board implements Runnable{
     public GameGUI getGUI(){
         return gui;
     }
-    // public void actionPerformed(ActionEvent e) {
-	// 	// we will have to run a for loop 30 times for each time a button is pressed 
-	// 	// we have to identify which button has raised an event
-	// 	for(int i = 0; i < 30; i++) {			
-	// 		if(e.getSource() == btnDealerBoardNumbers[i]) {				
-	// 			// this thread will take a lock on the game object  
-	// 			synchronized(board.lock2) {									
-	// 				this.setAnnouncedNumber(i+1);
-	// 				btnDealerBoardNumbers[i].setForeground(Color.gray);
-	// 				btnDealerBoardNumbers[i].setEnabled(false);
-	// 				board.lock2.notify();
-	// 			}				
-	// 			break;
-	// 		}
-	// 	}
-	// }
 
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
@@ -191,7 +180,7 @@ public class Moderator extends Board implements Runnable{
 			}
 		});		
         sc.next();
-        
+        gui.activateButtons();
 		Thread moderatorThread  = new Thread(admin,"Main Thread");
         moderatorThread.start();
         sc.close();

@@ -19,7 +19,7 @@ public class FullHouse implements WinningConditions {
     public boolean winCondition(int[][] card,Player p){
         boolean flag=true;
         if(isAvailable){
-            for(int row=0;row<2;row++){
+            for(int row=0;row<3;row++){
                 for(int col=0;col<9;col++){
                     if(card[row][col]!=-1&&card[row][col]!=0){
                         flag=false;

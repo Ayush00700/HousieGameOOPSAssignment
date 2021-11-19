@@ -15,7 +15,6 @@ public class Player implements Runnable{
     private WinningConditions prizeWon;
     private Board board;
 	private final static int MAXNO = 27;		// maximum numbers on player ticket
-    private Moderator moderator;
     private JPanel playerTicketPanel;		// GUI component
 	private JButton[] btnOnTicket;
 
@@ -26,7 +25,6 @@ public class Player implements Runnable{
         this.rules = rules; 
         this.board = b;
         this.id =id;
-        this.moderator = moderator;
 		// initialize player panel
 		playerTicketPanel = new JPanel();
 		// set playerPanel layout
@@ -59,7 +57,6 @@ public class Player implements Runnable{
                         hasAlreadyWon = true;
                         board.playerSuccessFlag[id] = true;
                         System.out.printf("Player %s has completed %s \n",this.playerName,this.prizeWon.getClass().getName());
-                        moderator.getGUI().logs("Player "+this.playerName+" has completed "+this.prizeWon.getClass().getName());
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
