@@ -67,7 +67,7 @@ public class Ticket {
         return card;
     }
     private void printCard(){
-
+    
         for(int row=0;row<3;row++){
             for(int col=0;col<9;col++){
                 if(col==0&&card[row][col]<10&&card[row][col]>0)

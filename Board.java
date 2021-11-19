@@ -9,9 +9,9 @@ public class Board {
 	public boolean noAnnouncedFlag = false;
 	public boolean[] playerSuccessFlag;
 	public boolean[] playerChanceFlag;
-	
 	public Object lock1 = new Object();
-	// public Object lock2 = new Object();
+	public Object lock2 = new Object();
+
     Board(int noOfPlayers){
         playerSuccessFlag = new boolean[noOfPlayers];
         playerChanceFlag = new boolean[noOfPlayers];
@@ -33,6 +33,12 @@ public class Board {
         int x = availableNumbers.remove(index);
         board[x] =true;
         return x;
+    }
+    
+    public int generateRandomNumber(int a){
+        int x = availableNumbers.remove(availableNumbers.indexOf(a));
+        board[x] =true;
+        return x;   //DEBUG
     }
     public boolean isBoardFull(){
         return availableNumbers.size()==0;
