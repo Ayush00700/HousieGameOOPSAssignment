@@ -15,18 +15,22 @@ Implementing Housie Game using concepts of Object Oriented Programming for OOP A
 
 # 0 See the video for explaination from Google Drive link
 
-`https://drive.google.com/drive/folders/1SCjAwdsvxPbofRn0SvJr4Y6xKBtkRo_k`
+```
+https://drive.google.com/drive/folders/1SCjAwdsvxPbofRn0SvJr4Y6xKBtkRo_k
+```
 
 # 1 Clone the repository
 
-`
+```
 - git clone https://github.com/Ayush00700/HousieGameOOPSAssignment.git
-`
+```
 
-# 2 Check your JDK Version and Java Version. I used `JavaSE-16` for Java and `jdk-16.0.1.9-hotspot` as my present JDK for this project. Also please prefer `VSCode` to `Eclipse`, as the former was used for creating this code.
+# 2 Check your JDK Version and Java Version. 
+
+I used `JavaSE-16` for Java and `jdk-16.0.1.9-hotspot` as my present JDK for this project. Also please prefer `VSCode` to `Eclipse`, as the former was used for creating this code.
 
 # 3 Copy all .java Files 
-(There are 11 .java files)
+`(There are 11 .java files, see the file structure below)`
 
 ```
 - Copy all the.java files to the root directory and run the following commands on terminal.
@@ -39,8 +43,8 @@ Implementing Housie Game using concepts of Object Oriented Programming for OOP A
 
 ```
 |-- Board.java  # Shared By Moderator and Players for editing, accessing and sharing data of the housie board.
-|-- Moderator.java  #Has the main file that 
-|-- Player.java          # Implementation of Each Player of the Game
+|-- Moderator.java  # Has the main method and Moderates the entire game. 
+|-- Player.java          # Implementation of Each Player of the Game.
 |-- Ticket.java          # Stores ticket for each player. 
 
 |--WinningConditions.java   # Interface to store all 5 Winning Conditions of 
