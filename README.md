@@ -13,6 +13,10 @@ Implementing Housie Game using concepts of Object Oriented Programming for OOP A
 
 ### Setup / Usage
 
+# 0 See the video for explaination from Google Drive link
+
+`https://drive.google.com/drive/folders/1SCjAwdsvxPbofRn0SvJr4Y6xKBtkRo_k`
+
 # 1 Clone the repository
 
 `
